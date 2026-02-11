@@ -5,19 +5,28 @@
 # [1] Two Sum
 #
 from typing import List
+from operator import itemgetter
 # @lc code=start
 class Solution:
     def twoSum(self, nums: List[int], target: int) -> List[int]:
-        num_map = []
-        for i, j in enumerate(nums):
-            for k, h in enumerate(nums[1:]):
-                if j + h == target:
-                    return i, k 
-                else:
-                    return None 
-                
-        num_map.append(i)
-        num_map.append(k)
+        # nums_with_index = sorted(enumerate(nums), key=lambda x: x[1])
+        nums_with_index = sorted(enumerate(nums), key=itemgetter(1))
+
+        left, right = 0, len(nums) - 1
+
+        while left < right:
+            sum_nums = nums_with_index[left][1] + nums_with_index[right][1]
+
+            if sum_nums < target:
+                left += 1 
+
+            elif sum_nums > target:
+                right -= 1
+
+            else:
+                return [nums_with_index[left][0], nums_with_index[right][0]]
+
+        return [] 
 
 
 # @lc code=end
